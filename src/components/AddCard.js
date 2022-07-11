@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { MdClose } from "react-icons/md";
 
 const Background = styled.div`
 width: 100%;
@@ -27,7 +28,7 @@ const Header = styled.div`
   color: 1A212C;
   min-width: 100px;
   padding: 16px 32px;
-  font-size: 30px;
+  font-size: 24px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -41,10 +42,21 @@ const Button = styled.button`
   border: none;
   background: #4c00c2;
   color: white;
-  font-size: 20px;
+  font-size: 24px;
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const CloseAddCard = styled(MdClose)`
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  z-index: 10;
 `;
 
 const AddCard = ({ showAddCard, setShowAddCard }) => {
@@ -53,8 +65,11 @@ const AddCard = ({ showAddCard, setShowAddCard }) => {
       {showAddCard ? (
         <Background>
           <AddCardContainer showAddCard={showAddCard}>
+            <CloseAddCard
+              aria-label="Close Add Card"
+              onClick={() => setShowAddCard((prev) => !prev)}
+            />
             <Header>Add you card details</Header>
-     
 
             <Button>Confirm</Button>
           </AddCardContainer>
