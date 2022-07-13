@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
 
@@ -14,7 +14,7 @@ align-items: center;
 
 const AddCardContainer = styled.div`
   width: 400px;
-  height: 600px;
+  height: 800px;
   box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
   color: #000;
   background: #fff;
@@ -59,7 +59,42 @@ const CloseAddCard = styled(MdClose)`
   z-index: 10;
 `;
 
+const FormGroup = styled.div`
+  color: palevioletred;
+  display: block;
+  width: 300px;
+  margin: 50px auto;
+`;
+
+const Label = styled.label`
+  margin-bottom: 0.5em;
+  color: #1a212c;
+  display: block;
+`;
+
+const Input = styled.input`
+  padding: 0.5em;
+  border-style: outset
+  border-radius: 3px;
+  width: 100%;
+  margin-bottom: 0.5em;
+`;
+
+const Message = styled.label`
+  margin-bottom: 0.5em;
+  color: palevioletred;
+  display: block;
+`;
+
 const AddCard = ({ showAddCard, setShowAddCard }) => {
+  const [name, setName] = useState("");
+  const [number, setNumber] = useState("");
+  const [expiry, setExpiry] = useState("");
+  const [cvc, setCvc] = useState("");
+
+  const addNewCard = () => {
+    setShowAddCard((prev) => !prev)
+  }
   return (
     <>
       {showAddCard ? (
@@ -71,7 +106,47 @@ const AddCard = ({ showAddCard, setShowAddCard }) => {
             />
             <Header>Add you card details</Header>
 
-            <Button>Confirm</Button>
+            <FormGroup>
+              <Label htmlFor="label">Name in card</Label>
+              <Input
+                type="text"
+                name="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              <Message>Please fill in your name</Message>
+            </FormGroup>
+            <FormGroup>
+              <Label>Card number</Label>
+              <Input
+                type="tel"
+                name="number"
+                value={number}
+                onChange={(e) => setNumber(e.target.value)}
+              />
+              <Message>Please enter a valid credit card number</Message>
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor="label">Expiry date</Label>
+              <Input
+                type="text"
+                name="expiry"
+                value={expiry}
+                onChange={(e) => setExpiry(e.target.value)}
+              />
+              <Message>Please enter a valid expiry date</Message>
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor="label">CVC (Security Code)</Label>
+              <Input
+                type="tel"
+                name="cvc"
+                value={cvc}
+                onChange={(e) => setCvc(e.target.value)}
+              />
+              <Message>Please enter a valid security code</Message>
+            </FormGroup>
+            <Button onClick = {addNewCard}>Confirm</Button>
           </AddCardContainer>
         </Background>
       ) : null}
