@@ -1,14 +1,15 @@
 import React from "react";
-import "./App.css";
 import Navbar from "./components/Navbar";
 import YourCards from "./components/YourCards";
+import CardContextProvider from "./context/CardContext";
 
 function App() {
-
   return (
     <>
       <Navbar />
-      <YourCards />
+      <CardContextProvider>
+        <YourCards />
+      </CardContextProvider>
     </>
   );
 }

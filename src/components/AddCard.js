@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
+import { CardContext } from "../context/CardContext";
+
+
+
 
 const Background = styled.div`
 width: 100%;
@@ -87,14 +91,27 @@ const Message = styled.label`
 `;
 
 const AddCard = ({ showAddCard, setShowAddCard }) => {
-  const [name, setName] = useState("");
-  const [number, setNumber] = useState("");
-  const [expiry, setExpiry] = useState("");
-  const [cvc, setCvc] = useState("");
+ 
+const { addCard } = useContext(CardContext);
 
-  const addNewCard = () => {
-    setShowAddCard((prev) => !prev)
-  }
+const [newCard, setNewCard] = useState({
+  name: " ", number: " ", expiry: " ", cvc:" " 
+});
+
+const onInputChange = (e) => {
+  setNewCard({...newCard, [e.target.name]: e.target.value})
+
+}
+
+const {name, number, expiry, cvc} = newCard;
+
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+  addCard(name, number, expiry, cvc);
+  setShowAddCard((prev) => !prev);
+}
+
   return (
     <>
       {showAddCard ? (
@@ -106,47 +123,48 @@ const AddCard = ({ showAddCard, setShowAddCard }) => {
             />
             <Header>Add you card details</Header>
 
-            <FormGroup>
+            <FormGroup onSubmit={handleSubmit}>
               <Label htmlFor="label">Name in card</Label>
               <Input
                 type="text"
                 name="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value = {name}
+                onChange = {(e) => onInputChange(e)}
+             
               />
               <Message>Please fill in your name</Message>
-            </FormGroup>
-            <FormGroup>
+
               <Label>Card number</Label>
               <Input
-                type="tel"
+                type="text"
                 name="number"
-                value={number}
-                onChange={(e) => setNumber(e.target.value)}
+                value = {number}
+                onChange = {(e) => onInputChange(e)}
+             
               />
               <Message>Please enter a valid credit card number</Message>
-            </FormGroup>
-            <FormGroup>
+
               <Label htmlFor="label">Expiry date</Label>
               <Input
                 type="text"
                 name="expiry"
-                value={expiry}
-                onChange={(e) => setExpiry(e.target.value)}
+                value = {expiry}
+                onChange = {(e) => onInputChange(e)}
+             
               />
               <Message>Please enter a valid expiry date</Message>
-            </FormGroup>
-            <FormGroup>
+
               <Label htmlFor="label">CVC (Security Code)</Label>
               <Input
-                type="tel"
+                type="text"
                 name="cvc"
-                value={cvc}
-                onChange={(e) => setCvc(e.target.value)}
+                value = {cvc}
+                onChange = {(e) => onInputChange(e)}
+             
               />
               <Message>Please enter a valid security code</Message>
             </FormGroup>
-            <Button onClick = {addNewCard}>Confirm</Button>
+            <Button onClick={handleSubmit}>Confirm</Button>
           </AddCardContainer>
         </Background>
       ) : null}
